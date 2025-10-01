@@ -1,0 +1,6 @@
+[
+  { "model": "guia.macroeixo", "pk": 1, "fields": { "nome": "Benefícios e Direitos", "ordem": 1 } },
+  { "model": "guia.macroeixo", "pk": 2, "fields": { "nome": "Licenças e Afastamentos", "ordem": 2 } },
+  { "model": "guia.macroeixo", "pk": 3, "fields": { "nome": "Carreira", "ordem": 3 } },
+  { "model": "guia.macroeixo", "pk": 4, "fields": { "nome": "Movimentação Funcional", "ordem": 4 } }
+]

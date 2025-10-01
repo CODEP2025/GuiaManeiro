@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}{{ object.titulo }} — Manual Interativo PGDP{% endblock %}
+
+{% block content %}
+<div class="proc-wrap">
+  <h1 class="proc-title">{{ object.titulo }}</h1>
+
+  <!-- Meta chips -->
+  <div class="proc-meta">
+    {% if object.gerencia %}<span class="meta-chip">Gerência: {{ object.gerencia }}</span>{% endif %}
+    {% if object.setor_responsavel %}<span class="meta-chip">Setor responsável: {{ object.setor_responsavel }}</span>{% endif %}
+    <span class="meta-chip">Eixo: {{ object.eixo.nome }}</span>
+  </div>
+
+  <div class="proc-grid">
+    <!-- COLUNA ESQUERDA -->
+    <div class="col">
+      {% if object.o_que_e %}
+      <section class="blk">
+        <h2>O que é</h2>
+        <div class="richtext">{{ object.o_que_e|linebreaksbr }}</div>
+      </section>
+      {% endif %}
+
+      {% if object.para_quem %}
+      <section class="blk">
+        <h2>Quem tem direito</h2>
+        <div class="richtext">{{ object.para_quem|linebreaksbr }}</div>
+      </section>
+      {% endif %}
+
+      {% if object.documentos_necessarios %}
+      <section class="blk">
+        <h2>Documentos exigidos</h2>
+        <div class="richtext">{{ object.documentos_necessarios|linebreaksbr }}</div>
+      </section>
+      {% endif %}
+    </div>
+
+    <!-- COLUNA DIREITA -->
+    <div class="col">
+      {% if object.como_solicitar %}
+      <section class="blk">
+        <h2>Procedimentos (passo a passo)</h2>
+        <div class="richtext">{{ object.como_solicitar|linebreaksbr }}</div>
+      </section>
+      {% endif %}
+
+      {% if object.base_legal %}
+      <section class="blk">
+        <h2>Base legal/regimentar</h2>
+        <div class="richtext">{{ object.base_legal|linebreaksbr }}</div>
+      </section>
+      {% endif %}
+
+      <section class="blk">
+        <h2>FAQ</h2>
+        {% if faqs and faqs|length > 0 %}
+          <div class="faq-list">
+            {% for f in faqs %}
+            <details class="faq-item">
+              <summary>{{ f.pergunta }}</summary>
+              <div class="richtext" style="margin-top:.5rem">{{ f.resposta|linebreaksbr }}</div>
+            </details>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="richtext" style="color:var(--muted)">Ainda não há perguntas frequentes para este procedimento.</div>
+        {% endif %}
+      </section>
+
+      <!-- CTA: na coluna direita, logo após o FAQ -->
+      <div class="cta-row">
+        <a class="pill-btn sm black" href="#" onclick="window.print();return false;">Gerar PDF</a>
+        {% if object.link_sei %}
+          <a class="pill-btn sm red" href="{{ object.link_sei }}" target="_blank" rel="noopener">Abrir no SEI/UNEB</a>
+        {% endif %}
+        <a class="pill-btn sm blue" href="{% url 'guia:home' %}">Voltar</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

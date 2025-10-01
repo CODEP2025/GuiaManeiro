@@ -1,0 +1,25 @@
+{% load static %}
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}UNEB • PGDP{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'guia/style.css' %}">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <div class="brand">UNEB • PGDP</div>
+        <nav class="nav">
+          <a href="{% url 'guia:home' %}">Início</a>
+          <a href="/admin/" target="_blank" rel="noopener">Área Administrativa</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

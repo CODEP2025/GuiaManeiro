@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Manual Interativo — PGDP/UNEB{% endblock %}
+
+{% block content %}
+
+  <!-- Topbar slim: título à esquerda e data de atualização à direita -->
+  <div class="topbar-slim">
+    <div class="topbar-left">Manual Interativo — <strong>PGDP/UNEB</strong></div>
+    <div class="topbar-right">
+      {% if last_updated %}Atualizado em {{ last_updated|date:"d/m/Y" }}{% endif %}
+    </div>
+  </div>
+
+  <!-- Filtro em cápsula -->
+  <section class="filter-shell card">
+    <form method="get" class="filter-grid">
+      <input class="pill-input" type="text" name="q" placeholder="Buscar por palavra-chave..." value="{{ q|default:'' }}">
+      <select class="pill-input" name="eixo">
+        <option value="">Todos os eixos</option>
+        {% for e in eixos %}
+          <option value="{{ e.id }}" {% if eixo_id == e.id|stringformat:"s" %}selected{% endif %}>{{ e.nome }}</option>
+        {% endfor %}
+      </select>
+      <button class="pill-btn" type="submit">Buscar</button>
+      <a class="pill-btn ghost" href="{% url 'guia:home' %}">Limpar filtros</a>
+    </form>
+  </section>
+
+  <!-- Resultados (somem até escolher um eixo e buscar) -->
+  {% if not show_results %}
+    <div class="card hint">
+      Selecione um <strong>eixo</strong> e clique <strong>Buscar</strong> para ver os procedimentos.
+    </div>
+  {% else %}
+    {% if total == 0 %}
+      <div class="card hint">Nenhum resultado para os filtros atuais.</div>
+    {% else %}
+      <div class="card-list">
+        {% for p in procedimentos %}
+          <a class="proc-card" href="{% url 'guia:procedimento_detail' slug=p.slug %}">
+            <div class="proc-cat">{{ p.eixo.macro.nome|default_if_none:"" }}</div>
+            <div class="proc-title">{{ p.titulo }}</div>
+            {% if p.o_que_e %}<div class="proc-desc">{{ p.o_que_e|striptags|truncatechars:160 }}</div>{% endif %}
+            <div class="proc-foot">
+              Atualizado: {{ p.atualizado_em|date:"d/m/Y" }}
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endif %}
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% load static %}
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  /* Tipos “seguras” para xhtml2pdf (ReportLab) */
+  @page { size: A4; margin: 18mm 16mm 18mm 16mm; }
+  body{ font-family: DejaVu Sans, Helvetica, Arial, sans-serif; color:#101c2c; }
+  h1{ color:#0c3e74; font-size:20pt; margin:0 0 8pt 0; text-transform:uppercase; }
+  h2{ color:#0c3e74; font-size:11pt; margin:12pt 0 6pt 0; font-weight:700; }
+  .meta{ font-size:9pt; color:#5d6a7f; margin:0 0 8pt 0 }
+  .blk{ border:1px solid #e7edf5; border-radius:8px; padding:10pt; margin:0 0 8pt 0; }
+  .richtext p{ margin:0 0 6pt 0 }
+  .richtext ul{ margin:0 0 6pt 16pt }
+  .richtext ol{ margin:0 0 6pt 16pt }
+</style>
+</head>
+<body>
+  <h1>{{ object.titulo }}</h1>
+  <div class="meta">
+    {% if object.gerencia %}<strong>Gerência:</strong> {{ object.gerencia }} • {% endif %}
+    {% if object.setor_responsavel %}<strong>Setor:</strong> {{ object.setor_responsavel }} • {% endif %}
+    <strong>Eixo:</strong> {{ object.eixo.nome }}
+  </div>
+
+  {% if object.o_que_e %}
+  <div class="blk">
+    <h2>Descrição</h2>
+    <div class="richtext">{{ object.o_que_e|linebreaksbr }}</div>
+  </div>
+  {% endif %}
+
+  {% if object.como_solicitar %}
+  <div class="blk">
+    <h2>Passo a passo</h2>
+    <div class="richtext">{{ object.como_solicitar|linebreaksbr }}</div>
+  </div>
+  {% endif %}
+
+  {% if object.documentos_necessarios %}
+  <div class="blk">
+    <h2>Documentos necessários</h2>
+    <div class="richtext">{{ object.documentos_necessarios|linebreaksbr }}</div>
+  </div>
+  {% endif %}
+
+  {% if object.base_legal %}
+  <div class="blk">
+    <h2>Base legal</h2>
+    <div class="richtext">{{ object.base_legal|linebreaksbr }}</div>
+  </div>
+  {% endif %}
+
+  {% if object.observacoes %}
+  <div class="blk">
+    <h2>Observações</h2>
+    <div class="richtext">{{ object.observacoes|linebreaksbr }}</div>
+  </div>
+  {% endif %}
+
+  {% if faqs %}
+  <div class="blk">
+    <h2>FAQ</h2>
+    {% for f in faqs %}
+      <p><strong>{{ f.pergunta }}</strong></p>
+      <div class="richtext">{{ f.resposta|linebreaksbr }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</body>
+</html>

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}UNEB • PGDP — Guia{% endblock %}
+
+{% block content %}
+<div class="grid" style="display:grid;grid-template-columns:1fr 1.4fr;gap:20px;">
+  <!-- Painel de busca -->
+  <section class="card" style="background:#fff;border:1px solid #e6e8ec;border-radius:12px;padding:18px;">
+    <h2 style="margin:0 0 12px 0;">Buscar procedimentos</h2>
+    <form method="get">
+      <label style="display:block;margin:8px 0 4px;">Pesquisar</label>
+      <input type="text" name="q" placeholder="Digite o nome do procedimento"
+             value="{{ q|default:'' }}"
+             style="width:100%;padding:10px;border:1px solid #e6e8ec;border-radius:8px;">
+
+      <label style="display:block;margin:14px 0 4px;">Eixo</label>
+      <select name="eixo" style="width:100%;padding:10px;border:1px solid #e6e8ec;border-radius:8px;">
+        <option value="">Todos os eixos</option>
+        {% for e in eixos %}
+          <option value="{{ e.id }}" {% if eixo_id == e.id|stringformat:"s" %}selected{% endif %}>
+            {{ e.nome }}
+          </option>
+        {% endfor %}
+      </select>
+
+      <div style="display:flex;gap:10px;margin-top:14px;">
+        <button type="submit" class="btn">Buscar</button>
+        <a class="btn-secondary" href="{% url 'guia:home' %}">Limpar filtros</a>
+      </div>
+    </form>
+  </section>
+
+  <!-- Painel de resultados -->
+  <section>
+    <h2 style="margin:0 0 12px 0;">Resultados</h2>
+    {% if total == 0 %}
+      <div class="card" style="background:#fff;border:1px solid #e6e8ec;border-radius:12px;padding:16px;color:#5b6b84;">
+        Nenhum resultado para os filtros atuais.
+      </div>
+    {% else %}
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        {% for p in procedimentos %}
+          <a class="card" href="{% url 'guia:procedimento_detail' slug=p.slug %}"
+             style="display:block;background:#fff;border:1px solid #e6e8ec;border-radius:12px;padding:16px;text-decoration:none;color:inherit;">
+            <div style="font-weight:700;">{{ p.titulo }}</div>
+            <div style="color:#1f5eff;margin-top:4px;">Eixo: {{ p.eixo.nome }}</div>
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}{{ object.titulo }} — UNEB • PGDP{% endblock %}
+
+{% block content %}
+<div class="proc-wrap">
+  <h1 class="proc-title">{{ object.titulo }}</h1>
+
+  <div class="proc-meta">
+    {% if object.gerencia %}<span class="meta-chip">Gerência: {{ object.gerencia }}</span>{% endif %}
+    {% if object.setor_responsavel %}<span class="meta-chip">Setor responsável: {{ object.setor_responsavel }}</span>{% endif %}
+    <span class="meta-chip">Eixo: {{ object.eixo.nome }}</span>
+    <span class="meta-chip">Categoria: {{ object.eixo.macro.nome }}</span>
+  </div>
+
+  <div class="proc-grid">
+    <div class="col">
+      {% if object.o_que_e %}
+      <section class="blk">
+        <h2>O que é</h2>
+        <div class="richtext">{{ object.o_que_e|linebreaksbr }}</div>
+      </section>
+      {% endif %}
+      {% if object.para_quem %}
+      <section class="blk">
+        <h2>Quem tem direito</h2>
+        <div class="richtext">{{ object.para_quem|linebreaksbr }}</div>
+      </section>
+      {% endif %}
+      {% if object.documentos_necessarios %}
+      <section class="blk">
+        <h2>Documentos exigidos</h2>
+        <div class="richtext">{{ object.documentos_necessarios|linebreaksbr }}</div>
+      </section>
+      {% endif %}
+    </div>
+
+    <div class="col">
+      {% if object.como_solicitar %}
+      <section class="blk">
+        <h2>Procedimentos (passo a passo)</h2>
+        <div class="richtext">{{ object.como_solicitar|linebreaksbr }}</div>
+      </section>
+      {% endif %}
+      {% if object.prazos %}
+      <section class="blk">
+        <h2>Prazos</h2>
+        <div class="richtext">{{ object.prazos|linebreaksbr }}</div>
+      </section>
+      {% endif %}
+      {% if object.base_legal %}
+      <section class="blk">
+        <h2>Base legal/regimentar</h2>
+        <div class="richtext">{{ object.base_legal|linebreaksbr }}</div>
+      </section>
+      {% endif %}
+      {% if object.observacoes %}
+      <section class="blk">
+        <h2>Observações práticas</h2>
+        <div class="richtext">{{ object.observacoes|linebreaksbr }}</div>
+      </section>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if object.link_sei %}
+  <div class="sei-cta">
+    <a class="btn" href="{{ object.link_sei }}" target="_blank" rel="noopener">Abrir no SEI/UNEB — Formulário/RDV</a>
+  </div>
+  {% endif %}
+
+  <div class="back-link"><a href="{% url 'guia:home' %}">← Voltar</a></div>
+</div>
+{% endblock %}
