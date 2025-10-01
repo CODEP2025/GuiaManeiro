@@ -3,7 +3,6 @@ services:
     name: pgdp-guia-simples
     env: python
     plan: starter
-    # Diga ao Render que o app está na subpasta:
     rootDir: Manual-PGDP-Novo
     buildCommand: |
       pip install -r requirements.txt
